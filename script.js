@@ -175,7 +175,6 @@ console.log(contains(nestedObject, 44)); // true
 console.log(contains(nestedObject, 'foo')); // false
 
 console.log('--- totalIntegers ---');
-
 function totalIntegers(value) {
   if (value.constructor !== Array) {
     if (Number.isInteger(value)) {
@@ -197,4 +196,21 @@ console.log(totalIntegers([[[5], 3], 0, 2, ['foo'], [], [4, [5, 6]]])); // 7
 
 console.log('--- sumSquares ---');
 console.log('--- replicate ---');
+
 console.log('--- collatz ---');
+function collatz(n) {
+  if (n === 1) {
+    return 0;
+  }
+
+  if (n % 2) {
+    return 1 + collatz(3 * n + 1);
+  }
+  return 1 + collatz(n / 2);
+}
+
+console.log(collatz(1));
+console.log(collatz(2));
+console.log(collatz(3));
+console.log(collatz(4));
+console.log(collatz(7));
