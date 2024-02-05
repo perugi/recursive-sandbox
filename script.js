@@ -175,6 +175,26 @@ console.log(contains(nestedObject, 44)); // true
 console.log(contains(nestedObject, 'foo')); // false
 
 console.log('--- totalIntegers ---');
+
+function totalIntegers(value) {
+  if (value.constructor !== Array) {
+    if (Number.isInteger(value)) {
+      return 1;
+    }
+    return 0;
+  }
+
+  let total = 0;
+
+  for (const nestedValue of value) {
+    total += totalIntegers(nestedValue, total);
+  }
+
+  return total;
+}
+
+console.log(totalIntegers([[[5], 3], 0, 2, ['foo'], [], [4, [5, 6]]])); // 7
+
 console.log('--- sumSquares ---');
 console.log('--- replicate ---');
 console.log('--- collatz ---');
