@@ -147,13 +147,9 @@ function contains(value, searchValue) {
     return value === searchValue;
   }
 
-  for (const nestedValue of Object.values(value)) {
-    if (contains(nestedValue, searchValue)) {
-      return true;
-    }
-  }
-
-  return false;
+  return Object.values(value).some((nestedValue) =>
+    contains(nestedValue, searchValue)
+  );
 }
 
 const nestedObject = {
@@ -184,10 +180,9 @@ function totalIntegers(value) {
   }
 
   let total = 0;
-
-  for (const nestedValue of value) {
-    total += totalIntegers(nestedValue, total);
-  }
+  value.forEach((nestedValue) => {
+    total += totalIntegers(nestedValue);
+  });
 
   return total;
 }
@@ -195,7 +190,44 @@ function totalIntegers(value) {
 console.log(totalIntegers([[[5], 3], 0, 2, ['foo'], [], [4, [5, 6]]])); // 7
 
 console.log('--- sumSquares ---');
+function sumSquares(value) {
+  if (value.constructor !== Array) {
+    if (Number.isInteger(value)) {
+      return value ** 2;
+    }
+    return 0;
+  }
+
+  let total = 0;
+  value.forEach((nestedValue) => {
+    total += sumSquares(nestedValue);
+  });
+
+  return total;
+}
+
+let l = [1, 2, 3];
+console.log(sumSquares(l)); // 1 + 4 + 9 = 14
+
+l = [[1, 2], 3];
+console.log(sumSquares(l)); // 1 + 4 + 9 = 14
+
+l = [[[[[[[[[1]]]]]]]]];
+console.log(sumSquares(l)); // 1 = 1
+
+l = [10, [[10], 10], [10]];
+console.log(sumSquares(l)); // 100 + 100 + 100 + 100 = 400
+
 console.log('--- replicate ---');
+function replicate(repetitions, number) {
+  if (repetitions <= 0) return [];
+
+  return [number].concat(replicate(repetitions - 1, number));
+}
+
+console.log(replicate(3, 5)); // [5, 5, 5]
+console.log(replicate(1, 69)); // [69]
+console.log(replicate(-2, 6)); // []
 
 console.log('--- collatz ---');
 function collatz(n) {
